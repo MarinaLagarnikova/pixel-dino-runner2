@@ -1,0 +1,36 @@
+// js/sprites.js
+export const DINO_RUN_FRAMES = [
+  { sx: 235, sy: 181, sw: 322, sh: 192, anchorX: 161, anchorY: 192 },
+  { sx: 598, sy: 181, sw: 279, sh: 192, anchorX: 140, anchorY: 192 },
+  { sx: 960, sy: 181, sw: 314, sh: 192, anchorX: 157, anchorY: 192 },
+];
+
+export function drawSprite(ctx, img, frame, x, y, scale) {
+  const { sx, sy, sw, sh, anchorX, anchorY } = frame;
+  ctx.drawImage(
+    img, sx, sy, sw, sh,
+    x - anchorX * scale,
+    y - anchorY * scale,
+    sw * scale,
+    sh * scale
+  );
+}
+
+export function loadSprites() {
+  const sheets = {
+    dino: 'assets/spritesheet.png',
+    cactus: 'assets/cactus-spritesheet.png',
+    pterodactyl: 'assets/pterodactylus-spritesheet.png',
+  };
+  const entries = Object.entries(sheets).map(([id, src]) => loadImage(id, src));
+  return Promise.all(entries).then(Object.fromEntries);
+}
+
+function loadImage(id, src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve([id, img]);
+    img.onerror = reject;
+    img.src = src;
+  });
+}

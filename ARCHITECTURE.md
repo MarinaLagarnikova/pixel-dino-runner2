@@ -100,6 +100,19 @@
 | `obstacles.js` | Генерация и движение препятствий | Чистые функции над массивом obstacles |
 | `input.js` | Keyboard/touch события | Возвращает команды, не меняет состояние |
 | `main.js` | Точка входа, инициализация, сборка | Единственный владелец глобального состояния |
+| `ground.js` | Скроллинг земли | updateGround (чистая) + drawGround |
+| `background.js` | Параллакс фон | updateBackground (чистая) + drawBackground |
+| `dino.js` | Анимация дино | updateDino (чистая) + drawDino |
+| `score.js` | Счёт и скорость | updateScore, updateSpeed (чистые) + localStorage |
+| `input.js` | Клавиатура | createInput() — замыкание с Set |
+| `sprites.js` | Спрайтшиты | loadSprites(), drawSprite(), DINO_RUN_FRAMES |
+| `ui.js` | UI элементы | drawStartScreen, drawScore |
+
+## Паттерн обновления состояния
+
+`update(state, input, dt)` → новый объект состояния (иммутабельно).
+`main.js` присваивает `state = update(state, input, dt)`.
+Каждый модуль экспортирует `update*` — чистую функцию над своим срезом состояния.
 
 ## Поток данных
 
