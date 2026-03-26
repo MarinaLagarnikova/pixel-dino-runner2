@@ -1,0 +1,4 @@
+node_modules/
+converage/
+.idea/
+.env

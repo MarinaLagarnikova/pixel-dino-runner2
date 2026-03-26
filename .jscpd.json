@@ -1,0 +1,7 @@
+{
+  "threshold": 5,
+  "reporters": ["console"],
+  "ignore": ["node_modules", "coverage", "**/*.md"],
+  "absolute": true,
+  "gitignore": true
+}
