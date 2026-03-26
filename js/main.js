@@ -5,7 +5,7 @@ import { renderScene } from './renderer.js';
 import { updateGround } from './ground.js';
 import { createBackground, updateBackground } from './background.js';
 import { updateDino } from './dino.js';
-import { updateScore, updateSpeed, loadHighScore } from './score.js';
+import { updateScore, updateSpeed, loadHighScore, saveHighScore } from './score.js';
 import { loadSprites } from './sprites.js';
 import { createInput } from './input.js';
 
@@ -26,6 +26,9 @@ function updateRunning(state, dt) {
   const background = updateBackground(state.background, speed, dt);
   const dino = updateDino(state.dino, dt);
   const score = updateScore(state.score, speed, dt);
+  if (score.high > state.score.high) {
+    saveHighScore(score.high);
+  }
   return { ...state, speed, ground, background, dino, score };
 }
 
