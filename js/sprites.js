@@ -5,6 +5,12 @@ export const DINO_RUN_FRAMES = [
   { sx: 960, sy: 181, sw: 314, sh: 192, anchorX: 157, anchorY: 192 },
 ];
 
+export const DINO_JUMP_FRAME =
+  { sx: 322, sy: 549, sw: 249, sh: 165, anchorX: 125, anchorY: 165 };
+
+export const DINO_DUCK_FRAME =
+  { sx: 756, sy: 651, sw: 272, sh: 100, anchorX: 136, anchorY: 100 };
+
 export function drawSprite(ctx, img, frame, x, y, scale) {
   const { sx, sy, sw, sh, anchorX, anchorY } = frame;
   ctx.drawImage(
