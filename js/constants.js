@@ -22,6 +22,7 @@ export const DINO_HITBOX_W = 95;       // dino run/jump collision width, px
 export const DINO_HITBOX_H = 58;       // dino run/jump collision height, px
 export const DINO_DUCK_HITBOX_W = 80;  // dino duck collision width, px
 export const DINO_DUCK_HITBOX_H = 30;  // dino duck collision height, px
+export const DINO_JUMP_HITBOX_W = 87;  // dino jump collision width, px (matches jump sprite: 249 * 0.35)
 export const DOUBLE_CACTUS_SPACING = 0.9; // offset multiplier for double cactus pair
 export const OBSTACLE_SPAWN_BUFFER = 50;  // px past CANVAS_W where obstacle spawns
 export const OBSTACLE_SPAWN_RETRY = 0.1;  // seconds to wait before retrying blocked spawn

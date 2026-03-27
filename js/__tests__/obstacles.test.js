@@ -120,6 +120,15 @@ test('checkCollision returns false for duck dino far from obstacle', () => {
   expect(checkCollision(dino, [obstacle])).toBe(false);
 });
 
+test('checkCollision jump: narrower hitbox does not falsely hit cactus just to the right', () => {
+  // Dino mid-jump (y=220), large cactus at x=146.
+  // Old run hitbox (95px wide): right edge = 80+47.5=127.5 > cactus hitbox left ≈127.4 → would collide.
+  // Jump hitbox (87px wide): right edge = 80+43.5=123.5 < cactus hitbox left → no collision.
+  const dino = { x: 80, y: 220, state: 'jump' };
+  const obstacle = { x: 146, type: 'large' };
+  expect(checkCollision(dino, [obstacle])).toBe(false);
+});
+
 // ── drawObstacles ─────────────────────────────────────────────────────────────
 
 test('drawObstacles calls ctx.drawImage once per small obstacle', () => {

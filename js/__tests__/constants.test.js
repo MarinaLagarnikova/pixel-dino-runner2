@@ -5,6 +5,7 @@ import {
   GROUND_DASH_CYCLE,
   OBSTACLE_SPAWN_MIN, OBSTACLE_SPAWN_MAX, OBSTACLE_MIN_GAP, CACTUS_HITBOX_SHRINK,
   DINO_HITBOX_W, DINO_HITBOX_H, DINO_DUCK_HITBOX_W, DINO_DUCK_HITBOX_H,
+  DINO_JUMP_HITBOX_W,
   DOUBLE_CACTUS_SPACING, OBSTACLE_SPAWN_BUFFER, OBSTACLE_SPAWN_RETRY,
   PTERO_SCORE_THRESHOLD,
   PTERO_Y_LOW, PTERO_Y_MID, PTERO_Y_HIGH,
@@ -84,6 +85,12 @@ test('DINO_DUCK_HITBOX_W is a positive number', () => {
 test('DINO_DUCK_HITBOX_H is a positive number', () => {
   expect(typeof DINO_DUCK_HITBOX_H).toBe('number');
   expect(DINO_DUCK_HITBOX_H).toBeGreaterThan(0);
+});
+
+test('DINO_JUMP_HITBOX_W is a positive number narrower than DINO_HITBOX_W', () => {
+  expect(typeof DINO_JUMP_HITBOX_W).toBe('number');
+  expect(DINO_JUMP_HITBOX_W).toBeGreaterThan(0);
+  expect(DINO_JUMP_HITBOX_W).toBeLessThan(DINO_HITBOX_W);
 });
 
 test('DOUBLE_CACTUS_SPACING is a positive number', () => {

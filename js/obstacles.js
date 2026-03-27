@@ -3,7 +3,7 @@ import {
   CANVAS_W, GROUND_Y, SPRITE_SCALE,
   OBSTACLE_SPAWN_MIN, OBSTACLE_SPAWN_MAX, OBSTACLE_MIN_GAP,
   CACTUS_HITBOX_SHRINK, DINO_HITBOX_W, DINO_HITBOX_H,
-  DINO_DUCK_HITBOX_W, DINO_DUCK_HITBOX_H,
+  DINO_DUCK_HITBOX_W, DINO_DUCK_HITBOX_H, DINO_JUMP_HITBOX_W,
   DOUBLE_CACTUS_SPACING, OBSTACLE_SPAWN_BUFFER, OBSTACLE_SPAWN_RETRY,
   PTERO_SCORE_THRESHOLD, PTERO_Y_LOW, PTERO_Y_MID, PTERO_Y_HIGH,
   PTERO_FRAME_DURATION, PTERO_FRAME_COUNT, PTERO_HITBOX_SHRINK,
@@ -78,7 +78,7 @@ function animatePtero(o, dt) {
 // ── shared helpers ────────────────────────────────────────────────────────────
 
 function dinoBounds(dino) {
-  const w = dino.state === 'duck' ? DINO_DUCK_HITBOX_W : DINO_HITBOX_W;
+  const w = dino.state === 'duck' ? DINO_DUCK_HITBOX_W : dino.state === 'jump' ? DINO_JUMP_HITBOX_W : DINO_HITBOX_W;
   const h = dino.state === 'duck' ? DINO_DUCK_HITBOX_H : DINO_HITBOX_H;
   return {
     left:   dino.x - w / 2,
