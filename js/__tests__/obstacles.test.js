@@ -6,7 +6,11 @@ import {
   checkCollision,
   drawObstacles,
 } from '../obstacles.js';
-import { CANVAS_W, GROUND_Y } from '../constants.js';
+import {
+  CANVAS_W, GROUND_Y,
+  PTERO_Y_LOW, PTERO_Y_MID, PTERO_Y_HIGH,
+  PTERO_SCORE_THRESHOLD, PTERO_FRAME_DURATION,
+} from '../constants.js';
 
 function makeCtx() {
   return { drawImage: jest.fn() };
@@ -134,4 +138,103 @@ test('drawObstacles does not draw when list is empty', () => {
   const ctx = makeCtx();
   drawObstacles(ctx, [], makeSprites());
   expect(ctx.drawImage).not.toHaveBeenCalled();
+});
+
+// ── pterodactyl animation ────────────────────────────────────────────────────
+
+test('pterodactyl frame advances after PTERO_FRAME_DURATION ms', () => {
+  const ptero = { x: 500, type: 'ptero_low', y: PTERO_Y_LOW, frame: 0, frameTimer: 0 };
+  const obs = { list: [ptero], spawnTimer: 999 };
+  const dt = PTERO_FRAME_DURATION / 1000 + 0.001;
+  const result = updateObstacles(obs, 0, dt);
+  expect(result.list[0].frame).toBe(1);
+});
+
+test('pterodactyl frame wraps around after last frame', () => {
+  const ptero = { x: 500, type: 'ptero_high', y: PTERO_Y_HIGH, frame: 2, frameTimer: 0 };
+  const obs = { list: [ptero], spawnTimer: 999 };
+  const dt = PTERO_FRAME_DURATION / 1000 + 0.001;
+  const result = updateObstacles(obs, 0, dt);
+  expect(result.list[0].frame).toBe(0);
+});
+
+test('pterodactyl moves left (x decreases) each frame', () => {
+  const ptero = { x: 500, type: 'ptero_mid', y: PTERO_Y_MID, frame: 0, frameTimer: 0 };
+  const obs = { list: [ptero], spawnTimer: 999 };
+  const result = updateObstacles(obs, 300, 0.1);
+  expect(result.list[0].x).toBeCloseTo(470);
+});
+
+// ── pterodactyl spawning ─────────────────────────────────────────────────────
+
+test('score below threshold never spawns pterodactyl (20 trials)', () => {
+  const cactusTypes = ['small', 'large', 'double'];
+  for (let i = 0; i < 20; i++) {
+    const obs = { list: [], spawnTimer: 0.01 };
+    const result = updateObstacles(obs, 300, 1.0, 0);
+    if (result.list.length > 0) {
+      const t = result.list[result.list.length - 1].type;
+      expect(cactusTypes).toContain(t);
+    }
+  }
+});
+
+test('score above threshold can produce a valid obstacle type', () => {
+  const allTypes = ['small', 'large', 'double', 'ptero_low', 'ptero_mid', 'ptero_high'];
+  const obs = { list: [], spawnTimer: 0.01 };
+  const result = updateObstacles(obs, 300, 1.0, PTERO_SCORE_THRESHOLD + 1);
+  if (result.list.length > 0) {
+    expect(allTypes).toContain(result.list[result.list.length - 1].type);
+  }
+});
+
+test('spawned pterodactyl has y, frame, frameTimer fields', () => {
+  let pteroObs = null;
+  for (let i = 0; i < 50 && !pteroObs; i++) {
+    const obs = { list: [], spawnTimer: 0.01 };
+    const result = updateObstacles(obs, 300, 1.0, PTERO_SCORE_THRESHOLD + 1);
+    const last = result.list[result.list.length - 1];
+    if (last && last.type.startsWith('ptero_')) pteroObs = last;
+  }
+  if (pteroObs) {
+    expect(typeof pteroObs.y).toBe('number');
+    expect(pteroObs.frame).toBe(0);
+    expect(pteroObs.frameTimer).toBe(0);
+  }
+});
+
+// ── pterodactyl collision ────────────────────────────────────────────────────
+
+test('checkCollision ptero_mid: standing dino collides', () => {
+  const dino = { x: 80, y: GROUND_Y, state: 'run' };
+  const ptero = { x: 80, type: 'ptero_mid', y: PTERO_Y_MID, frame: 0, frameTimer: 0 };
+  expect(checkCollision(dino, [ptero])).toBe(true);
+});
+
+test('checkCollision ptero_mid: ducking dino does not collide', () => {
+  const dino = { x: 80, y: GROUND_Y, state: 'duck' };
+  const ptero = { x: 80, type: 'ptero_mid', y: PTERO_Y_MID, frame: 0, frameTimer: 0 };
+  expect(checkCollision(dino, [ptero])).toBe(false);
+});
+
+test('checkCollision ptero_high: standing dino does not collide', () => {
+  const dino = { x: 80, y: GROUND_Y, state: 'run' };
+  const ptero = { x: 80, type: 'ptero_high', y: PTERO_Y_HIGH, frame: 0, frameTimer: 0 };
+  expect(checkCollision(dino, [ptero])).toBe(false);
+});
+
+test('checkCollision ptero_low: ducking dino still collides', () => {
+  const dino = { x: 80, y: GROUND_Y, state: 'duck' };
+  const ptero = { x: 80, type: 'ptero_low', y: PTERO_Y_LOW, frame: 0, frameTimer: 0 };
+  expect(checkCollision(dino, [ptero])).toBe(true);
+});
+
+// ── pterodactyl drawing ──────────────────────────────────────────────────────
+
+test('drawObstacles calls drawImage once for pterodactyl', () => {
+  const ctx = makeCtx();
+  const sprites = { cactus: {}, pterodactyl: {} };
+  const ptero = { x: 300, type: 'ptero_low', y: PTERO_Y_LOW, frame: 0, frameTimer: 0 };
+  drawObstacles(ctx, [ptero], sprites);
+  expect(ctx.drawImage).toHaveBeenCalledTimes(1);
 });
