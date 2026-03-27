@@ -1,7 +1,7 @@
 // js/__tests__/dino.test.js
 import { jest } from '@jest/globals';
 import { updateDino, drawDino } from '../dino.js';
-import { DINO_RUN_FRAME_COUNT, GROUND_Y } from '../constants.js';
+import { DINO_RUN_FRAME_COUNT, GROUND_Y, DINO_JUMP_VY } from '../constants.js';
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -69,11 +69,9 @@ test('ArrowUp triggers jump', () => {
 
 test('double jump is blocked: second Space while airborne does nothing', () => {
   const dino = makeDino({ state: 'jump', vy: -300, y: GROUND_Y - 40 });
-  const firstVy = dino.vy;
-  const result = updateDino(dino, makeInput({ consumed: ['Space'] }), 0);
-  // vy only changes due to gravity, not a second jump
-  expect(result.vy).toBeGreaterThan(firstVy); // gravity applied, not reset
+  const result = updateDino(dino, makeInput({ consumed: ['Space'] }), 0.016);
   expect(result.state).toBe('jump');
+  expect(result.vy).not.toBe(DINO_JUMP_VY); // vy was not reset to jump velocity
 });
 
 // ── gravity ───────────────────────────────────────────────────────────────────

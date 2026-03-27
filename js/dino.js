@@ -22,8 +22,9 @@ function getGravity(input) {
 
 function applyPhysics(dino, input, dt) {
   if (dino.state !== 'jump') return dino;
-  const vy = dino.vy + getGravity(input) * Math.max(dt, 1 / 1000);
+  const vy = dino.vy + getGravity(input) * dt;
   const y = dino.y + vy * dt;
+  // vy >= 0 prevents premature landing when a large dt integrates past GROUND_Y on the way up
   if (y >= GROUND_Y && vy >= 0) {
     const landed = input.isPressed('ArrowDown') ? 'duck' : 'run';
     return { ...dino, y: GROUND_Y, vy: 0, state: landed };
