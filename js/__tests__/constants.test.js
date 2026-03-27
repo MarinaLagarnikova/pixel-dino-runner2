@@ -6,6 +6,10 @@ import {
   OBSTACLE_SPAWN_MIN, OBSTACLE_SPAWN_MAX, OBSTACLE_MIN_GAP, CACTUS_HITBOX_SHRINK,
   DINO_HITBOX_W, DINO_HITBOX_H, DINO_DUCK_HITBOX_W, DINO_DUCK_HITBOX_H,
   DOUBLE_CACTUS_SPACING, OBSTACLE_SPAWN_BUFFER, OBSTACLE_SPAWN_RETRY,
+  PTERO_SCORE_THRESHOLD,
+  PTERO_Y_LOW, PTERO_Y_MID, PTERO_Y_HIGH,
+  PTERO_FRAME_DURATION, PTERO_FRAME_COUNT,
+  PTERO_HITBOX_SHRINK,
 } from '../constants.js';
 
 test('CANVAS_W is 800', () => expect(CANVAS_W).toBe(800));
@@ -95,4 +99,33 @@ test('OBSTACLE_SPAWN_BUFFER is a positive number', () => {
 test('OBSTACLE_SPAWN_RETRY is a positive number', () => {
   expect(typeof OBSTACLE_SPAWN_RETRY).toBe('number');
   expect(OBSTACLE_SPAWN_RETRY).toBeGreaterThan(0);
+});
+
+test('PTERO_SCORE_THRESHOLD is a positive number', () => {
+  expect(typeof PTERO_SCORE_THRESHOLD).toBe('number');
+  expect(PTERO_SCORE_THRESHOLD).toBeGreaterThan(0);
+});
+
+test('PTERO_Y heights are ordered high < mid < low (top to bottom)', () => {
+  expect(PTERO_Y_HIGH).toBeLessThan(PTERO_Y_MID);
+  expect(PTERO_Y_MID).toBeLessThan(PTERO_Y_LOW);
+});
+
+test('all PTERO_Y values are positive numbers below GROUND_Y', () => {
+  const GROUND_Y = 260;
+  for (const y of [PTERO_Y_HIGH, PTERO_Y_MID, PTERO_Y_LOW]) {
+    expect(typeof y).toBe('number');
+    expect(y).toBeGreaterThan(0);
+    expect(y).toBeLessThanOrEqual(GROUND_Y);
+  }
+});
+
+test('PTERO_FRAME_DURATION is positive and PTERO_FRAME_COUNT >= 2', () => {
+  expect(PTERO_FRAME_DURATION).toBeGreaterThan(0);
+  expect(PTERO_FRAME_COUNT).toBeGreaterThanOrEqual(2);
+});
+
+test('PTERO_HITBOX_SHRINK is between 0 and 1', () => {
+  expect(PTERO_HITBOX_SHRINK).toBeGreaterThan(0);
+  expect(PTERO_HITBOX_SHRINK).toBeLessThan(1);
 });
