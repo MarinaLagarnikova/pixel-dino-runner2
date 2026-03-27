@@ -33,7 +33,8 @@ test('obstacles move left by speed * dt', () => {
 });
 
 test('obstacles off-screen left are removed from list', () => {
-  const obs = { list: [{ x: -50, type: 'small' }], spawnTimer: 999 };
+  // x=-201 after movement (300*0.016=4.8px) → -205.8 < -200 → removed
+  const obs = { list: [{ x: -201, type: 'small' }], spawnTimer: 999 };
   const result = updateObstacles(obs, 300, 0.016);
   expect(result.list).toHaveLength(0);
 });
@@ -76,15 +77,10 @@ test('after spawn, spawnTimer is reset to a positive value', () => {
 });
 
 test('no spawn when last obstacle is too close (OBSTACLE_MIN_GAP)', () => {
-  // obstacle near the right edge — below minimum gap
-  const obs = { list: [{ x: CANVAS_W - 100, type: 'small' }], spawnTimer: 0.01 };
+  // obstacle at CANVAS_W+50 (just spawned). After dt=1.0 at speed=300, x = 850-300 = 550.
+  // canSpawn checks post-movement list: 550 > CANVAS_W(800) - OBSTACLE_MIN_GAP(300) = 500 → no spawn.
+  const obs = { list: [{ x: CANVAS_W + 50, type: 'small' }], spawnTimer: 0.01 };
   const result = updateObstacles(obs, 300, 1.0);
-  // After dt=1.0 at speed=300, existing obstacle moves to CANVAS_W-100-300 = 400
-  // New obstacle would be at CANVAS_W+50-300 = 550
-  // Gap = 550 - 400 = 150 < OBSTACLE_MIN_GAP(300), so no spawn — but wait,
-  // the gap check happens BEFORE movement. At the start of update, last obstacle is at x=CANVAS_W-100.
-  // CANVAS_W - (CANVAS_W-100) = 100 < OBSTACLE_MIN_GAP(300). So no spawn.
-  // After movement, list still has 1 item.
   expect(result.list).toHaveLength(1);
 });
 

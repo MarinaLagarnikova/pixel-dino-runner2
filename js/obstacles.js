@@ -59,14 +59,14 @@ function canSpawn(list) {
 function moveList(list, speed, dt) {
   return list
     .map(o => ({ ...o, x: o.x - speed * dt }))
-    .filter(o => o.x > 0);
+    .filter(o => o.x > -200);
 }
 
 export function updateObstacles(obstacles, speed, dt) {
   const list = moveList(obstacles.list, speed, dt);
   const spawnTimer = obstacles.spawnTimer - dt;
 
-  if (spawnTimer <= 0 && canSpawn(obstacles.list)) {
+  if (spawnTimer <= 0 && canSpawn(list)) {
     const type = TYPES[Math.floor(Math.random() * TYPES.length)];
     const spawned = { x: CANVAS_W + OBSTACLE_SPAWN_BUFFER - speed * dt, type };
     return { list: [...list, spawned], spawnTimer: randomSpawnTimer() };
