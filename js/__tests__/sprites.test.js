@@ -51,3 +51,17 @@ test('CACTUS_LARGE_FRAME has required sprite fields', () => {
     expect(typeof CACTUS_LARGE_FRAME[key]).toBe('number');
   }
 });
+
+import { PTERO_FRAMES } from '../sprites.js';
+
+test('PTERO_FRAMES has 3 frames', () => {
+  expect(PTERO_FRAMES).toHaveLength(3);
+});
+
+test('each PTERO_FRAMES entry has required sprite fields', () => {
+  for (const frame of PTERO_FRAMES) {
+    for (const key of ['sx', 'sy', 'sw', 'sh', 'anchorX', 'anchorY']) {
+      expect(typeof frame[key]).toBe('number');
+    }
+  }
+});

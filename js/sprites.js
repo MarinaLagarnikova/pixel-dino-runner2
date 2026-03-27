@@ -18,6 +18,13 @@ export const CACTUS_SMALL_FRAME =
 export const CACTUS_LARGE_FRAME =
   { sx: 48, sy: 74, sw: 143, sh: 230, anchorX: 71, anchorY: 230 };
 
+// Pterodactyl frames (from assets/pterodactylus-spritesheet.png)
+export const PTERO_FRAMES = [
+  { sx: 207,  sy: 250, sw: 298, sh: 241, anchorX: 149, anchorY: 241 },
+  { sx: 538,  sy: 353, sw: 480, sh: 137, anchorX: 240, anchorY: 137 },
+  { sx: 1057, sy: 379, sw: 355, sh: 133, anchorX: 177, anchorY: 133 },
+];
+
 export function drawSprite(ctx, img, frame, x, y, scale) {
   const { sx, sy, sw, sh, anchorX, anchorY } = frame;
   ctx.drawImage(
