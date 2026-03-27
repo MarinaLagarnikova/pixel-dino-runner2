@@ -1,6 +1,5 @@
 import { jest } from '@jest/globals';
-import { DINO_RUN_FRAMES, drawSprite } from '../sprites.js';
-import { CACTUS_SMALL_FRAME, CACTUS_LARGE_FRAME } from '../sprites.js';
+import { DINO_RUN_FRAMES, drawSprite, CACTUS_SMALL_FRAME, CACTUS_LARGE_FRAME } from '../sprites.js';
 
 function makeCtx() {
   return { drawImage: jest.fn() };
