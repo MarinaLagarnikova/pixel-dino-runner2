@@ -37,6 +37,7 @@ function makeIdleState() {
     background: { elements: [] },
     dino: { x: 80, y: 260, frame: 0, state: 'run', frameTimer: 0 },
     score: { current: 0, high: 0 },
+    obstacles: { list: [], spawnTimer: 1 },
   };
 }
 
@@ -62,6 +63,7 @@ test('renderScene accepts sprites as third argument', () => {
     background: { elements: [] },
     dino: { x: 80, y: 260, frame: 0, state: 'run', frameTimer: 0 },
     score: { current: 10, high: 10 },
+    obstacles: { list: [], spawnTimer: 1 },
   };
   expect(() => renderScene(ctx, state, { dino: {} })).not.toThrow();
 });
@@ -78,4 +80,15 @@ test('renderScene with dead status renders GAME OVER overlay', () => {
   renderScene(ctx, { ...makeIdleState(), status: 'dead' }, { dino: {} });
   const texts = ctx.fillText.mock.calls.map(c => c[0]);
   expect(texts.some(t => t.includes('GAME OVER'))).toBe(true);
+});
+
+test('renderScene calls drawImage for obstacles in list', () => {
+  const ctx = makeCtx();
+  const state = {
+    ...makeIdleState(),
+    status: 'running',
+    obstacles: { list: [{ x: 400, type: 'small' }], spawnTimer: 1 },
+  };
+  renderScene(ctx, state, { dino: {}, cactus: {} });
+  expect(ctx.drawImage).toHaveBeenCalled();
 });
