@@ -8,6 +8,7 @@ import { updateDino } from './dino.js';
 import { updateScore, updateSpeed, loadHighScore, saveHighScore } from './score.js';
 import { loadSprites } from './sprites.js';
 import { createInput } from './input.js';
+import { createObstacles, updateObstacles, checkCollision } from './obstacles.js';
 
 function createInitialState() {
   return {
@@ -17,6 +18,7 @@ function createInitialState() {
     background: createBackground(),
     score: { current: 0, high: loadHighScore() },
     speed: INITIAL_SPEED,
+    obstacles: createObstacles(),
   };
 }
 
@@ -44,9 +46,14 @@ function updateWorld(state, input, dt) {
   const ground = updateGround(state.ground, speed, dt);
   const background = updateBackground(state.background, speed, dt);
   const dino = updateDino(state.dino, input, dt);
+  const obstacles = updateObstacles(state.obstacles, speed, dt);
   const score = updateScore(state.score, speed, dt);
   if (score.high > state.score.high) saveHighScore(score.high);
-  return { ...state, speed, ground, background, dino, score };
+
+  if (checkCollision(dino, obstacles.list)) {
+    return { ...state, speed, ground, background, dino, obstacles, score, status: 'dead' };
+  }
+  return { ...state, speed, ground, background, dino, obstacles, score };
 }
 
 function updateRunning(state, input, dt) {
