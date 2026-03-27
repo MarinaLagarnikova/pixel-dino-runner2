@@ -65,3 +65,17 @@ test('renderScene accepts sprites as third argument', () => {
   };
   expect(() => renderScene(ctx, state, { dino: {} })).not.toThrow();
 });
+
+test('renderScene with paused status renders PAUSED overlay', () => {
+  const ctx = makeCtx();
+  renderScene(ctx, { ...makeIdleState(), status: 'paused' }, { dino: {} });
+  const texts = ctx.fillText.mock.calls.map(c => c[0]);
+  expect(texts.some(t => t.includes('PAUSED'))).toBe(true);
+});
+
+test('renderScene with dead status renders GAME OVER overlay', () => {
+  const ctx = makeCtx();
+  renderScene(ctx, { ...makeIdleState(), status: 'dead' }, { dino: {} });
+  const texts = ctx.fillText.mock.calls.map(c => c[0]);
+  expect(texts.some(t => t.includes('GAME OVER'))).toBe(true);
+});
