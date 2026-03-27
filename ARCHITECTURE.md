@@ -104,7 +104,7 @@
 | `input.js` | Клавиатура | createInput() — замыкание с Set |
 | `sprites.js` | Спрайтшиты | loadSprites(), drawSprite(), DINO_RUN_FRAMES |
 | `ui.js` | UI элементы | drawStartScreen, drawScore, drawPausedScreen, drawGameOverScreen |
-| `obstacles.js` | Спавн, движение и коллизия кактусов | createObstacles, updateObstacles, checkCollision, drawObstacles |
+| `obstacles.js` | Спавн, движение, коллизия и отрисовка всех препятствий (кактусы + птеродактили) | createObstacles, updateObstacles(obstacles, speed, dt, score?), checkCollision, drawObstacles |
 
 ## Форма состояния
 
@@ -116,7 +116,13 @@
   background: { elements: [{ x, y, w }] },
   score: { current, high },
   speed: number,
-  obstacles: { list: [{ x, type: 'small' | 'large' | 'double' }], spawnTimer },
+  obstacles: {
+    list: [
+      { x, type: 'small' | 'large' | 'double' }                                    // кактус
+      | { x, type: 'ptero_low' | 'ptero_mid' | 'ptero_high', y, frame, frameTimer } // птеродактиль
+    ],
+    spawnTimer,
+  },
 }
 ```
 
