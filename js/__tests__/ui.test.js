@@ -32,32 +32,22 @@ test('drawScore displays floored score values', () => {
   expect(calls.some(t => t.includes('100'))).toBe(true);
 });
 
-function makeCtxForOverlays() {
-  return {
-    fillStyle: '',
-    fillRect: jest.fn(),
-    fillText: jest.fn(),
-    font: '',
-    textAlign: '',
-  };
-}
-
 test('drawPausedScreen renders PAUSED text', () => {
-  const ctx = makeCtxForOverlays();
+  const ctx = makeCtx();
   drawPausedScreen(ctx);
   const texts = ctx.fillText.mock.calls.map(c => c[0]);
   expect(texts.some(t => t.includes('PAUSED'))).toBe(true);
 });
 
 test('drawGameOverScreen renders GAME OVER text', () => {
-  const ctx = makeCtxForOverlays();
+  const ctx = makeCtx();
   drawGameOverScreen(ctx);
   const texts = ctx.fillText.mock.calls.map(c => c[0]);
   expect(texts.some(t => t.includes('GAME OVER'))).toBe(true);
 });
 
 test('drawGameOverScreen renders restart hint', () => {
-  const ctx = makeCtxForOverlays();
+  const ctx = makeCtx();
   drawGameOverScreen(ctx);
   const texts = ctx.fillText.mock.calls.map(c => c[0]);
   expect(texts.some(t => t.includes('Enter') || t.includes('Пробел'))).toBe(true);
