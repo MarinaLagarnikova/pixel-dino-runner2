@@ -24,3 +24,23 @@ export function drawScore(ctx, score) {
     50
   );
 }
+
+export function drawPausedScreen(ctx) {
+  ctx.fillStyle = 'rgba(0,0,0,0.4)';
+  ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 20px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('PAUSED', CANVAS_W / 2, CANVAS_H / 2);
+}
+
+export function drawGameOverScreen(ctx) {
+  ctx.fillStyle = 'rgba(0,0,0,0.4)';
+  ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 20px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('GAME OVER', CANVAS_W / 2, CANVAS_H / 2 - 20);
+  ctx.font = '14px monospace';
+  ctx.fillText('Пробел / Enter — рестарт', CANVAS_W / 2, CANVAS_H / 2 + 20);
+}
