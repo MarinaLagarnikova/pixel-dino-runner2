@@ -1,5 +1,6 @@
 import { jest } from '@jest/globals';
 import { DINO_RUN_FRAMES, drawSprite } from '../sprites.js';
+import { CACTUS_SMALL_FRAME, CACTUS_LARGE_FRAME } from '../sprites.js';
 
 function makeCtx() {
   return { drawImage: jest.fn() };
@@ -38,4 +39,16 @@ test('drawSprite applies scale', () => {
   expect(ctx.drawImage).toHaveBeenCalledWith(
     img, 0, 0, 100, 50, 175, 225, 50, 25
   );
+});
+
+test('CACTUS_SMALL_FRAME has required sprite fields', () => {
+  for (const key of ['sx', 'sy', 'sw', 'sh', 'anchorX', 'anchorY']) {
+    expect(typeof CACTUS_SMALL_FRAME[key]).toBe('number');
+  }
+});
+
+test('CACTUS_LARGE_FRAME has required sprite fields', () => {
+  for (const key of ['sx', 'sy', 'sw', 'sh', 'anchorX', 'anchorY']) {
+    expect(typeof CACTUS_LARGE_FRAME[key]).toBe('number');
+  }
 });

@@ -11,6 +11,13 @@ export const DINO_JUMP_FRAME =
 export const DINO_DUCK_FRAME =
   { sx: 756, sy: 651, sw: 272, sh: 100, anchorX: 136, anchorY: 100 };
 
+// Cactus frames (from assets/cactus-spritesheet.png)
+export const CACTUS_SMALL_FRAME =
+  { sx: 234, sy: 404, sw: 94, sh: 125, anchorX: 47, anchorY: 125 };
+
+export const CACTUS_LARGE_FRAME =
+  { sx: 48, sy: 74, sw: 143, sh: 230, anchorX: 71, anchorY: 230 };
+
 export function drawSprite(ctx, img, frame, x, y, scale) {
   const { sx, sy, sw, sh, anchorX, anchorY } = frame;
   ctx.drawImage(
