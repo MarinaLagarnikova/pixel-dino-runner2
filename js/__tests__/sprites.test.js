@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { DINO_RUN_FRAMES, drawSprite, CACTUS_SMALL_FRAME, CACTUS_LARGE_FRAME } from '../sprites.js';
+import { DINO_RUN_FRAMES, drawSprite, CACTUS_SMALL_FRAME, CACTUS_LARGE_FRAME, PTERO_FRAMES } from '../sprites.js';
 
 function makeCtx() {
   return { drawImage: jest.fn() };
@@ -51,8 +51,6 @@ test('CACTUS_LARGE_FRAME has required sprite fields', () => {
     expect(typeof CACTUS_LARGE_FRAME[key]).toBe('number');
   }
 });
-
-import { PTERO_FRAMES } from '../sprites.js';
 
 test('PTERO_FRAMES has 3 frames', () => {
   expect(PTERO_FRAMES).toHaveLength(3);
