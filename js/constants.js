@@ -14,3 +14,7 @@ export const GROUND_DASH_CYCLE = 40;   // 2x dash(8) + gap(12) = 40px wrap cycle
 export const DINO_JUMP_VY = -600;          // initial upward velocity, px/s
 export const DINO_GRAVITY = 1800;          // downward accel, px/s²
 export const DINO_FAST_FALL_GRAVITY = 3600; // fast-fall accel (↓ in air), px/s²
+export const OBSTACLE_SPAWN_MIN = 1.0;    // seconds between obstacles (minimum)
+export const OBSTACLE_SPAWN_MAX = 2.5;    // seconds between obstacles (maximum)
+export const OBSTACLE_MIN_GAP = 300;      // px: minimum x-distance between last obstacle and spawn
+export const CACTUS_HITBOX_SHRINK = 0.75; // hitbox is 75% of visual sprite dimensions

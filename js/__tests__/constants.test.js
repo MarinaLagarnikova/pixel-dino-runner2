@@ -3,6 +3,7 @@ import {
   MAX_SPEED, SPEED_INCREMENT, BG_PARALLAX, SCORE_RATE,
   DINO_FRAME_DURATION, DINO_RUN_FRAME_COUNT, BG_ELEMENT_COUNT,
   GROUND_DASH_CYCLE,
+  OBSTACLE_SPAWN_MIN, OBSTACLE_SPAWN_MAX, OBSTACLE_MIN_GAP, CACTUS_HITBOX_SHRINK,
 } from '../constants.js';
 
 test('CANVAS_W is 800', () => expect(CANVAS_W).toBe(800));
@@ -38,4 +39,23 @@ test('BG_ELEMENT_COUNT is positive', () => {
 });
 test('GROUND_DASH_CYCLE is positive', () => {
   expect(GROUND_DASH_CYCLE).toBeGreaterThan(0);
+});
+
+test('OBSTACLE_SPAWN_MIN is a positive number', () => {
+  expect(typeof OBSTACLE_SPAWN_MIN).toBe('number');
+  expect(OBSTACLE_SPAWN_MIN).toBeGreaterThan(0);
+});
+
+test('OBSTACLE_SPAWN_MAX > OBSTACLE_SPAWN_MIN', () => {
+  expect(OBSTACLE_SPAWN_MAX).toBeGreaterThan(OBSTACLE_SPAWN_MIN);
+});
+
+test('OBSTACLE_MIN_GAP is a positive number', () => {
+  expect(typeof OBSTACLE_MIN_GAP).toBe('number');
+  expect(OBSTACLE_MIN_GAP).toBeGreaterThan(0);
+});
+
+test('CACTUS_HITBOX_SHRINK is between 0 and 1', () => {
+  expect(CACTUS_HITBOX_SHRINK).toBeGreaterThan(0);
+  expect(CACTUS_HITBOX_SHRINK).toBeLessThan(1);
 });
