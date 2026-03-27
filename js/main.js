@@ -20,25 +20,47 @@ function createInitialState() {
   };
 }
 
-function updateRunning(state, dt) {
+function updateIdle(state, input) {
+  if (input.consume('Space')) return { ...state, status: 'running' };
+  return state;
+}
+
+function updatePaused(state, input) {
+  if (input.consume('Escape') || input.consume('KeyP')) {
+    return { ...state, status: 'running' };
+  }
+  return state;
+}
+
+function updateDead(state, input) {
+  if (input.consume('Space') || input.consume('Enter')) {
+    return { ...createInitialState(), score: { current: 0, high: state.score.high } };
+  }
+  return state;
+}
+
+function updateWorld(state, input, dt) {
   const speed = updateSpeed(state.speed, dt);
   const ground = updateGround(state.ground, speed, dt);
   const background = updateBackground(state.background, speed, dt);
-  const dino = updateDino(state.dino, dt);
+  const dino = updateDino(state.dino, input, dt);
   const score = updateScore(state.score, speed, dt);
-  if (score.high > state.score.high) {
-    saveHighScore(score.high);
-  }
+  if (score.high > state.score.high) saveHighScore(score.high);
   return { ...state, speed, ground, background, dino, score };
 }
 
+function updateRunning(state, input, dt) {
+  if (input.consume('Escape') || input.consume('KeyP')) {
+    return { ...state, status: 'paused' };
+  }
+  return updateWorld(state, input, dt);
+}
+
 function update(state, input, dt) {
-  if (state.status === 'idle' && input.consume('Space')) {
-    return { ...state, status: 'running' };
-  }
-  if (state.status === 'running') {
-    return updateRunning(state, dt);
-  }
+  if (state.status === 'idle') return updateIdle(state, input);
+  if (state.status === 'running') return updateRunning(state, input, dt);
+  if (state.status === 'paused') return updatePaused(state, input);
+  if (state.status === 'dead') return updateDead(state, input);
   return state;
 }
 
