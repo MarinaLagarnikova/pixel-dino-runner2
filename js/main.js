@@ -46,8 +46,8 @@ function updateWorld(state, input, dt) {
   const ground = updateGround(state.ground, speed, dt);
   const background = updateBackground(state.background, speed, dt);
   const dino = updateDino(state.dino, input, dt);
-  const obstacles = updateObstacles(state.obstacles, speed, dt);
   const score = updateScore(state.score, speed, dt);
+  const obstacles = updateObstacles(state.obstacles, speed, dt, score.current);
   if (score.high > state.score.high) saveHighScore(score.high);
 
   if (checkCollision(dino, obstacles.list)) {
