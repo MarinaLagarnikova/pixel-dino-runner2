@@ -4,6 +4,8 @@ import {
   DINO_FRAME_DURATION, DINO_RUN_FRAME_COUNT, BG_ELEMENT_COUNT,
   GROUND_DASH_CYCLE,
   OBSTACLE_SPAWN_MIN, OBSTACLE_SPAWN_MAX, OBSTACLE_MIN_GAP, CACTUS_HITBOX_SHRINK,
+  DINO_HITBOX_W, DINO_HITBOX_H, DINO_DUCK_HITBOX_W, DINO_DUCK_HITBOX_H,
+  DOUBLE_CACTUS_SPACING, OBSTACLE_SPAWN_BUFFER, OBSTACLE_SPAWN_RETRY,
 } from '../constants.js';
 
 test('CANVAS_W is 800', () => expect(CANVAS_W).toBe(800));
@@ -58,4 +60,39 @@ test('OBSTACLE_MIN_GAP is a positive number', () => {
 test('CACTUS_HITBOX_SHRINK is between 0 and 1', () => {
   expect(CACTUS_HITBOX_SHRINK).toBeGreaterThan(0);
   expect(CACTUS_HITBOX_SHRINK).toBeLessThan(1);
+});
+
+test('DINO_HITBOX_W is a positive number', () => {
+  expect(typeof DINO_HITBOX_W).toBe('number');
+  expect(DINO_HITBOX_W).toBeGreaterThan(0);
+});
+
+test('DINO_HITBOX_H is a positive number', () => {
+  expect(typeof DINO_HITBOX_H).toBe('number');
+  expect(DINO_HITBOX_H).toBeGreaterThan(0);
+});
+
+test('DINO_DUCK_HITBOX_W is a positive number', () => {
+  expect(typeof DINO_DUCK_HITBOX_W).toBe('number');
+  expect(DINO_DUCK_HITBOX_W).toBeGreaterThan(0);
+});
+
+test('DINO_DUCK_HITBOX_H is a positive number', () => {
+  expect(typeof DINO_DUCK_HITBOX_H).toBe('number');
+  expect(DINO_DUCK_HITBOX_H).toBeGreaterThan(0);
+});
+
+test('DOUBLE_CACTUS_SPACING is a positive number', () => {
+  expect(typeof DOUBLE_CACTUS_SPACING).toBe('number');
+  expect(DOUBLE_CACTUS_SPACING).toBeGreaterThan(0);
+});
+
+test('OBSTACLE_SPAWN_BUFFER is a positive number', () => {
+  expect(typeof OBSTACLE_SPAWN_BUFFER).toBe('number');
+  expect(OBSTACLE_SPAWN_BUFFER).toBeGreaterThan(0);
+});
+
+test('OBSTACLE_SPAWN_RETRY is a positive number', () => {
+  expect(typeof OBSTACLE_SPAWN_RETRY).toBe('number');
+  expect(OBSTACLE_SPAWN_RETRY).toBeGreaterThan(0);
 });

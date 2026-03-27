@@ -3,6 +3,8 @@ import {
   CANVAS_W, GROUND_Y, SPRITE_SCALE,
   OBSTACLE_SPAWN_MIN, OBSTACLE_SPAWN_MAX, OBSTACLE_MIN_GAP,
   CACTUS_HITBOX_SHRINK,
+  DINO_HITBOX_W, DINO_HITBOX_H, DINO_DUCK_HITBOX_W, DINO_DUCK_HITBOX_H,
+  DOUBLE_CACTUS_SPACING, OBSTACLE_SPAWN_BUFFER, OBSTACLE_SPAWN_RETRY,
 } from './constants.js';
 import { CACTUS_SMALL_FRAME, CACTUS_LARGE_FRAME, drawSprite } from './sprites.js';
 
@@ -34,8 +36,8 @@ function cactusHitbox(x, type) {
 }
 
 function dinoBounds(dino) {
-  const w = dino.state === 'duck' ? 80 : 95;
-  const h = dino.state === 'duck' ? 30 : 58;
+  const w = dino.state === 'duck' ? DINO_DUCK_HITBOX_W : DINO_HITBOX_W;
+  const h = dino.state === 'duck' ? DINO_DUCK_HITBOX_H : DINO_HITBOX_H;
   return {
     left:   dino.x - w / 2,
     right:  dino.x + w / 2,
@@ -66,12 +68,12 @@ export function updateObstacles(obstacles, speed, dt) {
 
   if (spawnTimer <= 0 && canSpawn(obstacles.list)) {
     const type = TYPES[Math.floor(Math.random() * TYPES.length)];
-    const spawned = { x: CANVAS_W + 50 - speed * dt, type };
+    const spawned = { x: CANVAS_W + OBSTACLE_SPAWN_BUFFER - speed * dt, type };
     return { list: [...list, spawned], spawnTimer: randomSpawnTimer() };
   }
 
   if (spawnTimer <= 0) {
-    return { list, spawnTimer: 0.1 };
+    return { list, spawnTimer: OBSTACLE_SPAWN_RETRY };
   }
 
   return { list, spawnTimer };
@@ -85,7 +87,7 @@ export function checkCollision(dino, list) {
 export function drawObstacles(ctx, list, sprites) {
   for (const o of list) {
     if (o.type === 'double') {
-      const offset = CACTUS_SMALL_FRAME.sw * SPRITE_SCALE * 0.9;
+      const offset = CACTUS_SMALL_FRAME.sw * SPRITE_SCALE * DOUBLE_CACTUS_SPACING;
       drawSprite(ctx, sprites.cactus, CACTUS_SMALL_FRAME, o.x - offset / 2, GROUND_Y, SPRITE_SCALE);
       drawSprite(ctx, sprites.cactus, CACTUS_SMALL_FRAME, o.x + offset / 2, GROUND_Y, SPRITE_SCALE);
     } else {

@@ -108,6 +108,18 @@ test('checkCollision returns true when dino overlaps obstacle', () => {
   expect(checkCollision(dino, [obstacle])).toBe(true);
 });
 
+test('checkCollision returns true for duck dino overlapping obstacle', () => {
+  const dino = { x: 80, y: GROUND_Y, state: 'duck' };
+  const obstacle = { x: 80, type: 'small' };
+  expect(checkCollision(dino, [obstacle])).toBe(true);
+});
+
+test('checkCollision returns false for duck dino far from obstacle', () => {
+  const dino = { x: 80, y: GROUND_Y, state: 'duck' };
+  const obstacle = { x: 700, type: 'small' };
+  expect(checkCollision(dino, [obstacle])).toBe(false);
+});
+
 // ── drawObstacles ─────────────────────────────────────────────────────────────
 
 test('drawObstacles calls ctx.drawImage once per small obstacle', () => {
