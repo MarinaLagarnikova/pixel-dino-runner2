@@ -99,11 +99,24 @@
 | `main.js` | Точка входа, инициализация, сборка | Единственный владелец глобального состояния |
 | `ground.js` | Скроллинг земли | updateGround (чистая) + drawGround |
 | `background.js` | Параллакс фон | updateBackground (чистая) + drawBackground |
-| `dino.js` | Анимация дино | updateDino (чистая) + drawDino |
+| `dino.js` | Физика и анимация дино | updateDino(dino, input, dt) — прыжок, пригибание, гравитация + drawDino |
 | `score.js` | Счёт и скорость | updateScore, updateSpeed (чистые) + localStorage |
 | `input.js` | Клавиатура | createInput() — замыкание с Set |
 | `sprites.js` | Спрайтшиты | loadSprites(), drawSprite(), DINO_RUN_FRAMES |
-| `ui.js` | UI элементы | drawStartScreen, drawScore |
+| `ui.js` | UI элементы | drawStartScreen, drawScore, drawPausedScreen, drawGameOverScreen |
+
+## Форма состояния
+
+```js
+{
+  status: 'idle' | 'running' | 'paused' | 'dead',
+  dino: { x, y, vy, state: 'run' | 'jump' | 'duck', frame, frameTimer },
+  ground: { x },
+  background: { elements: [{ x, y, w }] },
+  score: { current, high },
+  speed: number,
+}
+```
 
 ## Паттерн обновления состояния
 
